@@ -10,6 +10,14 @@ export default function Hangman({ duration = 120000 }) {
   const [timeUp, setTimeUp] = useState(false);
   const [word, setWord] = useState(() => getRandomWord());
 
+  function resetGame() {
+    setWord(getRandomWord());
+    setCorrectGuesses([]);
+    setIncorrectGuesses([]);
+    setTimeLeft(duration);
+    setTimeUp(false);
+  }
+
   console.log(word);
   const alphabets = [
     "A",
@@ -86,6 +94,7 @@ export default function Hangman({ duration = 120000 }) {
       ) : null}
       <p>Time left: {Math.ceil(timeLeft / 1000)}s</p>
       {timeUp ? <p>You lost!</p> : !maskedWord.includes("_") && <p>You won!</p>}
+      {timeUp && <button onClick={resetGame}></button>}
     </div>
   );
 }
