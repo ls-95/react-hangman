@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Hangman() {
+export default function Hangman({ duration = 120000 }) {
   const word = "HANGMAN";
   const alphabets = [
     "A",
@@ -31,6 +31,15 @@ export default function Hangman() {
     "Z",
   ];
   const [correctGuesses, setCorrectGuesses] = useState([]);
+  const [timeUp, setTimeUp] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTimeUp(true);
+    }, duration);
+    return () => clearTimeout(timeout);
+  }, []);
+
   const maskedWord = word
     .split("")
     .map((letter) => (correctGuesses.includes(letter) ? letter : "_"))
@@ -51,7 +60,7 @@ export default function Hangman() {
           {alphabet}
         </button>
       ))}
-      {!maskedWord.includes("_") && <p>You won!</p>}
+      {timeUp ? <p>You lost!</p> : !maskedWord.includes("_") && <p>You won!</p>}
     </div>
   );
 }
