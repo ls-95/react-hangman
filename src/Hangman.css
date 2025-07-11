@@ -1,0 +1,125 @@
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.masked-word {
+  font-size: 36px;
+}
+
+.incorrect-guesses-text {
+  font-size: 18px;
+}
+
+.incorrect-guesses-letters {
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 3px;
+}
+
+.btn-letters {
+  margin: 5px;
+  width: 50px;
+  height: 37px;
+  background-color: #426bca;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 17px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-letters:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.time-left-container {
+  padding: 25px;
+}
+
+.time-left-container .time-left-text {
+  font-size: 18px;
+}
+
+.time-left-container .time-left-number {
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 3px;
+}
+
+.game-result-lost {
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.game-result-word {
+  margin-bottom: 25px;
+  margin-top: 8px;
+}
+
+.game-result-lost-text {
+  margin: 0;
+  padding: 12px 0 25px 0;
+  font-size: 18px;
+}
+
+.game-result-lost-word {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.game-result-won {
+  color: #01b46c;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 25px 0;
+}
+
+.btn-new-word {
+  background-color: #dddddd;
+  margin: 3px;
+  width: 100px;
+  height: 37px;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 17px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-new-word:hover {
+  transform: translateY(-2px);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); */
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .btn-letters {
+    font-size: 14px;
+    margin: 3px;
+  }
+}

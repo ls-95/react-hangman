@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { words } from "./words";
+import "./Hangman.css";
 
 const getRandomWord = () => words[Math.floor(Math.random() * words.length)];
 
@@ -57,6 +58,12 @@ export default function Hangman({ duration = 120000 }) {
   const hasLost = timeUp || incorrectGuesses.length >= 6;
   const gameOver = hasWon || hasLost;
 
+  const minutes = Math.floor(timeLeft / 60000);
+  const seconds = Math.floor((timeLeft % 60000) / 1000);
+  const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+    seconds
+  ).padStart(2, "0")}`;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -80,29 +87,69 @@ export default function Hangman({ duration = 120000 }) {
   }, [duration, timeUp, maskedWord, incorrectGuesses]);
 
   return (
-    <div>
-      <p>{maskedWord}</p>
-      {alphabets.map((alphabet, index) => (
-        <button
-          key={index}
-          onClick={() => {
-            if (hasLost || hasWon) return;
-            if (word.includes(alphabet)) {
-              setCorrectGuesses([...correctGuesses, alphabet]);
-            } else {
-              setIncorrectGuesses([...incorrectGuesses, alphabet]);
-            }
-          }}
-        >
-          {alphabet}
-        </button>
-      ))}
-      {incorrectGuesses.length > 0 ? (
-        <p>Incorrect guesses: {incorrectGuesses.join(", ")}</p>
-      ) : null}
-      <p>Time left: {Math.ceil(timeLeft / 1000)}s</p>
-      {hasLost ? <p>You lost!</p> : hasWon && <p>You won!</p>}
-      {gameOver && <button onClick={resetGame}>New word</button>}
+    <div className="game-wrapper">
+      <div className="container">
+        <p className="masked-word">{maskedWord}</p>
+        <p>
+          <span className="incorrect-guesses-text">Incorrect guesses:</span>{" "}
+          <span className="incorrect-guesses-letters">
+            {incorrectGuesses.length > 0
+              ? incorrectGuesses.join(", ")
+              : "\u00A0"}
+          </span>
+        </p>
+
+        {alphabets.map((alphabet, index) => (
+          <button
+            key={index}
+            className="btn-letters"
+            onClick={() => {
+              if (hasLost || hasWon) return;
+              if (
+                correctGuesses.includes(alphabet) ||
+                incorrectGuesses.includes(alphabet)
+              )
+                return;
+              if (word.includes(alphabet)) {
+                setCorrectGuesses([...correctGuesses, alphabet]);
+              } else {
+                setIncorrectGuesses([...incorrectGuesses, alphabet]);
+              }
+            }}
+          >
+            {alphabet}
+          </button>
+        ))}
+        <div className="time-left-container">
+          <span className="time-left-text">Time left:</span>{" "}
+          <span className="time-left-number">{formattedTime}s</span>
+        </div>
+        <div className="game-result">
+          {hasLost ? (
+            <>
+              <p className="game-result-lost">You lost!</p>
+              <p className="game-result-word">
+                <span className="game-result-lost-text">The word was:</span>{" "}
+                <span className="game-result-lost-word">{word}</span>
+              </p>
+            </>
+          ) : hasWon ? (
+            <p className="game-result-won">You won!</p>
+          ) : (
+            <div style={{ minHeight: "3em" }}></div>
+          )}
+        </div>
+
+        <div className="new-word-button">
+          {gameOver ? (
+            <button className="btn-new-word" onClick={resetGame}>
+              New word
+            </button>
+          ) : (
+            <div style={{ height: "2.5em" }}></div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
