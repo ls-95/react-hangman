@@ -53,6 +53,10 @@ export default function Hangman({ duration = 120000 }) {
     .map((letter) => (correctGuesses.includes(letter) ? letter : "_"))
     .join(" ");
 
+  const hasWon = !maskedWord.includes("_");
+  const hasLost = timeUp || incorrectGuesses.length >= 6;
+  const gameOver = hasWon || hasLost;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -65,12 +69,15 @@ export default function Hangman({ duration = 120000 }) {
       });
     }, 1000);
 
-    if (!timeUp && !maskedWord.includes("_")) {
+    if (
+      !timeUp &&
+      (!maskedWord.includes("_") || incorrectGuesses.length >= 6)
+    ) {
       clearInterval(interval);
     }
 
     return () => clearInterval(interval);
-  }, [duration, timeUp, maskedWord]);
+  }, [duration, timeUp, maskedWord, incorrectGuesses]);
 
   return (
     <div>
@@ -79,6 +86,7 @@ export default function Hangman({ duration = 120000 }) {
         <button
           key={index}
           onClick={() => {
+            if (hasLost || hasWon) return;
             if (word.includes(alphabet)) {
               setCorrectGuesses([...correctGuesses, alphabet]);
             } else {
@@ -93,8 +101,8 @@ export default function Hangman({ duration = 120000 }) {
         <p>Incorrect guesses: {incorrectGuesses.join(", ")}</p>
       ) : null}
       <p>Time left: {Math.ceil(timeLeft / 1000)}s</p>
-      {timeUp ? <p>You lost!</p> : !maskedWord.includes("_") && <p>You won!</p>}
-      {timeUp && <button onClick={resetGame}></button>}
+      {hasLost ? <p>You lost!</p> : hasWon && <p>You won!</p>}
+      {gameOver && <button onClick={resetGame}>New word</button>}
     </div>
   );
 }
