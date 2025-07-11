@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { words } from "./words";
+import { alphabets } from "./alphabets";
 import "./Hangman.css";
 
 const getRandomWord = () => words[Math.floor(Math.random() * words.length)];
@@ -18,36 +19,6 @@ export default function Hangman({ duration = 120000 }) {
     setTimeLeft(duration);
     setTimeUp(false);
   }
-
-  console.log(word);
-  const alphabets = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
 
   const maskedWord = word
     .split("")
